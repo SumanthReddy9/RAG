@@ -29,8 +29,24 @@ class SimpleTextChunker(TextChunker):
 
             if chunk:
                 chunks.append(chunk)
-            start = end + 1
-            end -= self.overlap
+            start = end - self.overlap
         return chunks
 
 
+class MultiGranularChunking(TextChunker):
+    def __init__(self, parent_size = 500, child_size = 100):
+        self.parent_size = parent_size
+        self.child_size = child_size
+
+    def chunk(self, text):
+        if not text:
+            return []
+
+        child = []
+        simple_chunker = SimpleTextChunker(100, 10)
+        parents = text.split("\n")
+        idx = 0
+        for parent in parents:
+            chunks = simple_chunker.chunk(parent)
+            child.extend(chunks)
+        return [parents, child]

@@ -7,7 +7,6 @@ from query.queryllm import OllamaCaller
 
 app = FastAPI()
 
-
 class QueryRequest(BaseModel):
     q: str
 
@@ -20,9 +19,7 @@ def health_check():
 
 @app.post("/query")
 def query(req: QueryRequest):
-
-    llm_caller = OllamaCaller()
-    
+    llm_caller = OllamaCaller()    
     return llm_caller.call_llm(req.q)
 
 @app.post("/add")
@@ -32,7 +29,6 @@ def add_knowledge(text: AddKnowledge):
         text_chunker = SimpleTextChunker(chunk_size=100, overlap=10)
         ingestion = Ingestion(text_chunker)
         n = ingestion.ingestData(text.k)
-
         return {
             "status": "success",
             "message": "content added successfully",

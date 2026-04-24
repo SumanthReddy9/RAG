@@ -2,3 +2,5 @@ uvicorn
 fastapi
 chromadb
 ollama
+graphiti-core
+sentence-transformers
